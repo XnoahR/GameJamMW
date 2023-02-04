@@ -5,6 +5,7 @@ using UnityEngine.AI;
 public class EnemyAI : MonoBehaviour
 {
     Vector3 distance;
+    public GameObject SFXobj;
     public bool Detected;
     public bool Lockmode;
     public bool isAttacking = false;
@@ -12,7 +13,8 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] float speed;
     public GameObject Player;
     PlayerController PlayerScript;
-    private void Awake() {
+    private void Awake()
+    {
         Player = GameObject.Find("Player");
         PlayerScript = Player.GetComponent<PlayerController>();
     }
@@ -26,74 +28,94 @@ public class EnemyAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(PlayerScript.isDead){
+        if (PlayerScript.isDead)
+        {
             speed = 0;
         }
         CheckDistancePlayer();
-       // Debug.Log(distance.magnitude);
-        if(!Detected && !PlayerScript.isDead){
-        transform.Translate(Vector3.forward*5f*Time.deltaTime);
+        // Debug.Log(distance.magnitude);
+        if (!Detected && !PlayerScript.isDead)
+        {
+            transform.Translate(Vector3.forward * 5f * Time.deltaTime);
         }
-        else{
-            
+        else
+        {
 
-            if(!Lockmode){
+
+            if (!Lockmode)
+            {
                 StartCoroutine(isAWare());
             }
-            else{
-                if(!isAttacking){
-                transform.position = Vector3.MoveTowards(transform.position,Player.transform.position,speed*Time.deltaTime);
-                transform.LookAt(Player.transform.position);
+            else
+            {
+                if (!isAttacking)
+                {
+                    transform.position = Vector3.MoveTowards(transform.position, Player.transform.position, speed * Time.deltaTime);
+                    transform.LookAt(Player.transform.position);
                 }
 
-               if(distance.magnitude <3){
+                if (distance.magnitude < 3)
+                {
                     StartCoroutine(Attack());
-               }
+                }
             }
-            
+
         }
-        
+
     }
 
-void CheckDistancePlayer(){
- distance = Player.transform.position - transform.position;
-}
-
-
-
-
-IEnumerator Attack(){
-    isAttacking = true;
-    yield return new WaitForSeconds(2f);
-    isAttacking = false;
-}
-    IEnumerator isAWare(){
-        
-               transform.LookAt(Player.transform.position);
-                yield return new WaitForSeconds(2f);
-                Lockmode = true;
+    void CheckDistancePlayer()
+    {
+        distance = Player.transform.position - transform.position;
     }
 
 
-    public void Die(){
+
+
+    IEnumerator Attack()
+    {
+        isAttacking = true;
+        yield return new WaitForSeconds(2f);
+        isAttacking = false;
+    }
+    IEnumerator isAWare()
+    {
+
+        transform.LookAt(Player.transform.position);
+        yield return new WaitForSeconds(2f);
+        Lockmode = true;
+    }
+
+
+    public void Die()
+    {
         StartCoroutine(Death());
     }
 
-    IEnumerator Death(){
+    IEnumerator Death()
+    {
+    
         gameObject.SetActive(false);
-        GameObject VFX = Instantiate(VFXobj,transform.position,Quaternion.identity);
+        GameObject SFX = Instantiate(SFXobj,transform.position,Quaternion.identity);
+        AudioSource poof = SFX.GetComponent<AudioSource>();
+        poof.Play();
+        Destroy(SFX,1.5f);
+        GameObject VFX = Instantiate(VFXobj, transform.position, Quaternion.identity);
         ParticleSystem vfx = VFX.GetComponent<ParticleSystem>();
         vfx.Play();
-        Destroy(VFX,vfx.main.duration);
-        yield return new WaitForSeconds(1f);
+        Destroy(VFX, vfx.main.duration);
+        yield return new WaitForSeconds(2f);
         Destroy(gameObject);
     }
 
-    void gameover(){
+    void gameover()
+    {
         speed = 0;
     }
-    private void OnCollisionEnter(Collision other) {
-        if(other.gameObject.CompareTag("Player")){
+    private void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
             PlayerScript.Dead();
         }
     }
