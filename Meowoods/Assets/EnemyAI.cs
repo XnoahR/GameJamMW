@@ -8,11 +8,13 @@ public class EnemyAI : MonoBehaviour
     public bool Detected;
     public bool Lockmode;
     public bool isAttacking = false;
+    public GameObject VFXobj;
     [SerializeField] float speed;
     public GameObject Player;
-
+    PlayerController PlayerScript;
     private void Awake() {
         Player = GameObject.Find("Player");
+        PlayerScript = Player.GetComponent<PlayerController>();
     }
     // Start is called before the first frame update
     void Start()
@@ -24,9 +26,12 @@ public class EnemyAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(PlayerScript.isDead){
+            speed = 0;
+        }
         CheckDistancePlayer();
        // Debug.Log(distance.magnitude);
-        if(!Detected){
+        if(!Detected && !PlayerScript.isDead){
         transform.Translate(Vector3.forward*5f*Time.deltaTime);
         }
         else{
@@ -47,12 +52,15 @@ public class EnemyAI : MonoBehaviour
             }
             
         }
-
+        
     }
 
 void CheckDistancePlayer(){
  distance = Player.transform.position - transform.position;
 }
+
+
+
 
 IEnumerator Attack(){
     isAttacking = true;
@@ -68,6 +76,25 @@ IEnumerator Attack(){
 
 
     public void Die(){
+        StartCoroutine(Death());
+    }
+
+    IEnumerator Death(){
+        gameObject.SetActive(false);
+        GameObject VFX = Instantiate(VFXobj,transform.position,Quaternion.identity);
+        ParticleSystem vfx = VFX.GetComponent<ParticleSystem>();
+        vfx.Play();
+        Destroy(VFX,vfx.main.duration);
+        yield return new WaitForSeconds(1f);
         Destroy(gameObject);
+    }
+
+    void gameover(){
+        speed = 0;
+    }
+    private void OnCollisionEnter(Collision other) {
+        if(other.gameObject.CompareTag("Player")){
+            PlayerScript.Dead();
+        }
     }
 }

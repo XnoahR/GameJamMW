@@ -7,16 +7,18 @@ public class Spawner : MonoBehaviour
     // Start is called before the first frame update
 
     public GameObject Ghost;
+    PlayerController player;
     public bool CanSpawn;
     void Start()
     {
         CanSpawn = true;
+        player = GameObject.Find("Player").GetComponent<PlayerController>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (CanSpawn)
+        if (CanSpawn && !player.isDead)
         {
             StartCoroutine(Spawn());
         }

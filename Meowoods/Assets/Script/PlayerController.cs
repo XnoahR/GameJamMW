@@ -3,7 +3,7 @@ using System.Collections;
 using ThreeDISevenZeroR.SensorKit;
 public class PlayerController : MonoBehaviour
 {
-  //  [SerializeField] private BoxOverlapSensor sensor;
+    //  [SerializeField] private BoxOverlapSensor sensor;
     Rigidbody rb;
     public float speed = 10.0f;
     public GameObject Fireball;
@@ -12,19 +12,25 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float Sens;
     public Transform FirePoint;
     private bool SkillCooldownC = true;
+    public bool isDead;
+    private bool CanMove;
+    public Animator anim;
 
+    public GroundMove Ground;
     private void Start()
     {
         AttackArea.gameObject.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         rb = GetComponent<Rigidbody>();
+        isDead = false;
+
     }
 
     private void FixedUpdate()
     {
-    //    sensor.UpdateSensor();
-        if (Horizontalzone() && VerticalZone())
+        //    sensor.UpdateSensor();
+        if (CanMove && Horizontalzone() && VerticalZone())
         {
             MovementInput();
         }
@@ -44,8 +50,16 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        if(!isDead){
         AttackInput();
         RotationInput();
+        }
+        if(isDead){
+            CanMove = false;
+        }
+        else{
+            CanMove = true;
+        }
     }
     void CheckPosition()
     {
@@ -117,5 +131,12 @@ public class PlayerController : MonoBehaviour
         Destroy(FireballGO, 3f);
         yield return new WaitForSeconds(2f);
         SkillCooldownC = true;
+    }
+
+    public void Dead()
+    {
+        isDead = true;
+        anim.SetBool("Died",true);
+        Debug.Log("DEAD");
     }
 }
