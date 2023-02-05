@@ -4,8 +4,6 @@ using ThreeDISevenZeroR.SensorKit;
 public class PlayerController : MonoBehaviour
 {
     //  [SerializeField] private BoxOverlapSensor sensor;
-
-    AudioSource DeadMeow; 
     Rigidbody rb;
     public float speed = 10.0f;
     public GameObject Fireball;
@@ -26,7 +24,7 @@ public class PlayerController : MonoBehaviour
         Cursor.visible = false;
         rb = GetComponent<Rigidbody>();
         isDead = false;
-        DeadMeow = GetComponent<AudioSource>();
+
     }
 
     private void FixedUpdate()
@@ -146,8 +144,6 @@ public class PlayerController : MonoBehaviour
     {
         isDead = true;
         anim.SetBool("Died",true);
-        DeadMeow.Play();
-        rb.isKinematic = true;
         Debug.Log("DEAD");
     }
     // void LateUpdate()

@@ -446,7 +446,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a3afb42669d6604e92865aaddf13d55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SFXobj: {fileID: 529207585987098070, guid: ef316907c05809c448a24887ab8f80a5, type: 3}
   Detected: 0
   Lockmode: 0
   isAttacking: 0

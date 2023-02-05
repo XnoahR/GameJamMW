@@ -22,10 +22,8 @@ public class AreaDamage : MonoBehaviour
         if (other.gameObject.CompareTag("Enemy"))
         {
             Debug.Log("Enemy Alert!");
-            if(other.gameObject!=null){
             EnemyAI Hit = other.GetComponent<EnemyAI>();
             Hit.Die();
-            }
         }
     }
 
