@@ -141,7 +141,6 @@ public class PlayerController : MonoBehaviour
         Destroy(gameObject);
         }
     }
-<<<<<<< Updated upstream
 
     public void Dead()
     {
@@ -151,13 +150,11 @@ public class PlayerController : MonoBehaviour
         rb.isKinematic = true;
         Debug.Log("DEAD");
     }
-=======
-    void LateUpdate()
-        {
-        AttackArea.transform.position = transform.position;
-        AttackArea.transform.rotation = transform.rotation;
-        AttackArea.transform.localScale = new Vector3(7, 1, 7);
-        AttackArea.transform.Translate(0, 1f, 3);
-        }
->>>>>>> Stashed changes
+    // void LateUpdate()
+    //     {
+    //     AttackArea.transform.position = transform.position;
+    //     AttackArea.transform.rotation = transform.rotation;
+    //     AttackArea.transform.localScale = new Vector3(7, 1, 7);
+    //     AttackArea.transform.Translate(0, 1f, 3);
+    //     }
 }
