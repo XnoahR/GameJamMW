@@ -32,7 +32,7 @@ public class EnemyAI : MonoBehaviour
         {
             speed = 0;
         }
-        CheckDistancePlayer();
+        //distance = Player.transform.position - transform.position;
         // Debug.Log(distance.magnitude);
         if (!Detected && !PlayerScript.isDead)
         {
@@ -54,20 +54,21 @@ public class EnemyAI : MonoBehaviour
                     transform.LookAt(Player.transform.position);
                 }
 
-                if (distance.magnitude < 3)
-                {
-                    StartCoroutine(Attack());
-                }
+                // if (distance.magnitude < 3)
+                // {
+                //     StartCoroutine(Attack());
+                // }
             }
 
         }
 
     }
 
-    void CheckDistancePlayer()
-    {
-        distance = Player.transform.position - transform.position;
-    }
+    // void CheckDistancePlayer()
+    // {
+    //     if(gameObject != null)
+        
+    // }
 
 
 
@@ -95,7 +96,7 @@ public class EnemyAI : MonoBehaviour
     IEnumerator Death()
     {
     
-        gameObject.SetActive(false);
+        //gameObject.SetActive(false);
         GameObject SFX = Instantiate(SFXobj,transform.position,Quaternion.identity);
         AudioSource poof = SFX.GetComponent<AudioSource>();
         poof.Play();
@@ -104,8 +105,8 @@ public class EnemyAI : MonoBehaviour
         ParticleSystem vfx = VFX.GetComponent<ParticleSystem>();
         vfx.Play();
         Destroy(VFX, vfx.main.duration);
-        yield return new WaitForSeconds(2f);
-        Destroy(gameObject);
+        yield return new WaitForSeconds(0.1f);
+        Destroy(this.gameObject);
     }
 
     void gameover()

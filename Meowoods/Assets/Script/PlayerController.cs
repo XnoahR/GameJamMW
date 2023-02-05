@@ -5,7 +5,9 @@ public class PlayerController : MonoBehaviour
 {
     //  [SerializeField] private BoxOverlapSensor sensor;
 
-    AudioSource DeadMeow; 
+
+    public AudioManager SFX;
+    //AudioSource DeadMeow; 
     Rigidbody rb;
     public float speed = 10.0f;
     public GameObject Fireball;
@@ -26,7 +28,7 @@ public class PlayerController : MonoBehaviour
         Cursor.visible = false;
         rb = GetComponent<Rigidbody>();
         isDead = false;
-        DeadMeow = GetComponent<AudioSource>();
+        //DeadMeow = GetComponent<AudioSource>();
     }
 
     private void FixedUpdate()
@@ -103,6 +105,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetButtonDown("Fire1"))
         {
+            SFX.Play("CatAttack");
             AttackArea.gameObject.SetActive(true);
         }
         if (Input.GetButtonUp("Fire1"))
@@ -133,28 +136,14 @@ public class PlayerController : MonoBehaviour
         Destroy(FireballGO, 3f);
         yield return new WaitForSeconds(2f);
         SkillCooldownC = true;
-    } 
-    void OnTriggerEnter(Collider other)
-    {
-        if(other.CompareTag("Enemy"))
-        {
-        Destroy(gameObject);
-        }
     }
 
     public void Dead()
     {
         isDead = true;
         anim.SetBool("Died",true);
-        DeadMeow.Play();
+        SFX.Play("DeathCat");
         rb.isKinematic = true;
         Debug.Log("DEAD");
     }
-    // void LateUpdate()
-    //     {
-    //     AttackArea.transform.position = transform.position;
-    //     AttackArea.transform.rotation = transform.rotation;
-    //     AttackArea.transform.localScale = new Vector3(7, 1, 7);
-    //     AttackArea.transform.Translate(0, 1f, 3);
-    //     }
 }
