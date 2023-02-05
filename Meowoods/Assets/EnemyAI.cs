@@ -95,7 +95,7 @@ public class EnemyAI : MonoBehaviour
 
     IEnumerator Death()
     {
-    
+        PlayerScript.score += 1;
         //gameObject.SetActive(false);
         GameObject SFX = Instantiate(SFXobj,transform.position,Quaternion.identity);
         AudioSource poof = SFX.GetComponent<AudioSource>();

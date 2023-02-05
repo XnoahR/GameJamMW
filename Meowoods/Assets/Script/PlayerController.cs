@@ -1,12 +1,17 @@
 using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using ThreeDISevenZeroR.SensorKit;
 public class PlayerController : MonoBehaviour
 {
     //  [SerializeField] private BoxOverlapSensor sensor;
 
+    public int score;
+
 
     public AudioManager SFX;
+    public float Mana = 100;
+    public Slider ManaBar;
     //AudioSource DeadMeow; 
     Rigidbody rb;
     public float speed = 10.0f;
@@ -17,6 +22,7 @@ public class PlayerController : MonoBehaviour
     public Transform FirePoint;
     private bool SkillCooldownC = true;
     public bool isDead;
+    private bool Attacking;
     private bool CanMove;
     public Animator anim;
 
@@ -28,6 +34,7 @@ public class PlayerController : MonoBehaviour
         Cursor.visible = false;
         rb = GetComponent<Rigidbody>();
         isDead = false;
+        score = 0;
         //DeadMeow = GetComponent<AudioSource>();
     }
 
@@ -54,17 +61,55 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if(!isDead){
-        AttackInput();
-        RotationInput();
+        ManaBar.value = Mana;
+        if (!isDead)
+        {
+            AttackInput();
+            RotationInput();
         }
-        if(isDead){
+
+        ManaCheck();
+
+        if (isDead)
+        {
             CanMove = false;
         }
-        else{
+        else
+        {
             CanMove = true;
         }
     }
+
+    private void ManaCheck()
+    {
+        if (Attacking)
+        {
+            if (Mana > 0)
+            {
+                MagicOn();
+            }
+            else
+            {
+                MagicOff();
+            }
+            if (Mana >= 0)
+                Mana -= 50 * Time.deltaTime;
+        }
+        else
+        {
+            if (Mana <= 100)
+                Mana += 30 * Time.deltaTime;
+        }
+        if (Mana < 0)
+        {
+            Mana = 0;
+        }
+        if (Mana > 100)
+        {
+            Mana = 100;
+        }
+    }
+
     void CheckPosition()
     {
         if (transform.position.z < 5f)
@@ -106,11 +151,16 @@ public class PlayerController : MonoBehaviour
         if (Input.GetButtonDown("Fire1"))
         {
             SFX.Play("CatAttack");
-            AttackArea.gameObject.SetActive(true);
+            Attacking = true;
+
+            SFX.Play("MagicArea");
+
+
         }
         if (Input.GetButtonUp("Fire1"))
         {
-            AttackArea.gameObject.SetActive(false);
+            Attacking = false;
+            MagicOff();
         }
 
         if (Input.GetKeyDown(KeyCode.C) && SkillCooldownC)
@@ -129,6 +179,17 @@ public class PlayerController : MonoBehaviour
         transform.rotation = Quaternion.Euler(transform.up * RotationY);
     }
 
+
+    void MagicOn()
+    {
+        AttackArea.gameObject.SetActive(true);
+    }
+
+    void MagicOff()
+    {
+        AttackArea.gameObject.SetActive(false);
+        SFX.Stop("MagicArea");
+    }
     IEnumerator SkillC()
     {
         GameObject FireballGO = Instantiate(Fireball, FirePoint.transform.position, Quaternion.identity);
@@ -141,9 +202,12 @@ public class PlayerController : MonoBehaviour
     public void Dead()
     {
         isDead = true;
-        anim.SetBool("Died",true);
+        anim.SetBool("Died", true);
         SFX.Play("DeathCat");
         rb.isKinematic = true;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
         Debug.Log("DEAD");
     }
 }

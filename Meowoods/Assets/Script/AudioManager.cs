@@ -9,13 +9,13 @@ public class AudioManager : MonoBehaviour
     public static AudioManager instance;
     
     private void Awake() {
-        if(instance == null){
-            instance = this;
-            DontDestroyOnLoad(this.gameObject);
-        }
-        else{
-            Destroy(this.gameObject);
-        }
+        // if(instance == null){
+        //     instance = this;
+        //     DontDestroyOnLoad(this.gameObject);
+        // }
+        // else{
+        //     Destroy(this.gameObject);
+        // }
 
         foreach(Sound s in SFX){
            s.source = gameObject.AddComponent<AudioSource>();
@@ -34,6 +34,12 @@ public class AudioManager : MonoBehaviour
         if(M== null) 
         return;
         M.source.Play();
+    }
+    public void Stop(string name){
+        Sound M = Array.Find(SFX, m => m.name == name);
+        if(M== null) 
+        return;
+        M.source.Stop();
     }
 
     public void Mute(string name){
