@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.12731749, g: 0.13414757, b: 0.1210787, a: 1}
+  m_IndirectSpecularColor: {r: 0.12731713, g: 0.13414736, b: 0.12107852, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -154,11 +154,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea23fb57704093b4bba8280c9222b470, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SFX: {fileID: 1564503286}
   speed: 10
   Fireball: {fileID: 3487398949558835981, guid: 863b5297ad5f77a4faee35beb7b8d4ab, type: 3}
   AttackArea: {fileID: 1362958515}
   Sens: 100
   FirePoint: {fileID: 1725332982}
+  isDead: 0
+  anim: {fileID: 819779902}
+  Ground: {fileID: 2408964880369325736, guid: cc84353ad1becd4479da0048ca99e07d, type: 3}
 --- !u!65 &37382138
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -186,6 +190,7 @@ Transform:
   m_Children:
   - {fileID: 1725332982}
   - {fileID: 1633940338}
+  - {fileID: 1362958516}
   - {fileID: 819779901}
   m_Father: {fileID: 0}
   m_RootOrder: 3
@@ -750,12 +755,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1362958515}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -1, z: 9}
+  m_LocalPosition: {x: 0, y: 0, z: 4}
   m_LocalScale: {x: 7, y: 0.1, z: 7}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_Father: {fileID: 37382141}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &1362958517
 BoxCollider:
@@ -832,6 +837,63 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e91c314e3e014a4aa8f062e9a2a32f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1564503285
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1564503287}
+  - component: {fileID: 1564503286}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1564503286
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1564503285}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe9048bc0c6ae8349bd637bd1cba06b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SFX:
+  - name: DeathCat
+    clip: {fileID: 8300000, guid: 0fc5e191b035ecf4388978402af43e81, type: 3}
+    Volume: 0.5
+    Pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: CatAttack
+    clip: {fileID: 8300000, guid: 1807c44cae8406a4cb59d8531e76d116, type: 3}
+    Volume: 0.5
+    Pitch: 1
+    loop: 0
+    source: {fileID: 0}
+--- !u!4 &1564503287
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1564503285}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -18.60623, y: -14.954663, z: 7.1468515}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1633940336
 GameObject:
   m_ObjectHideFlags: 0
